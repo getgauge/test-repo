@@ -7,8 +7,7 @@ jobs:
     if: github.event.deployment.environment == 'production'
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      NPM_TOKEN: '${{ secrets.NPM_TOKEN }}'
+      GITHUB_TOKEN: '${{ secrets.GAUGEBOT_GITHUB_TOKEN }}'
       CI: true
 
     steps:
@@ -43,15 +42,7 @@ jobs:
           hub release create -F ./desc.txt "v$version"
           rm -rf desc.txt
 
-      - name: Deploy npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          npm publish --access=public
-
       - name: Bump up version
-        env:
-          GAUGE_CI_TOKEN: '${{ secrets.GAUGE_CI_TOKEN }}'
         run: |
           git checkout master git checkout . && git pull --rebase
           version=$(npm version patch --no-git-tag-version)
