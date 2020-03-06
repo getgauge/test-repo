@@ -1,5 +1,2 @@
 # test-repo
 
-test
-
-
