@@ -68,6 +68,7 @@ jobs:
         run: |
           git checkout master && git checkout . && git pull --rebase
           version=$(npm version patch --no-git-tag-version)
-          git checkout -b "v$version"
+          # git checkout -b "$version"
+          # hub pull-request -p -m "Bump up version further development."
           git commit -am "Bumping up -> $version"
-          hub pull-request -p -m "Bump up version further development."
+          git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git" master
